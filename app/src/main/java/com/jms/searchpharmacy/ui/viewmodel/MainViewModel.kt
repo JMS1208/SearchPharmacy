@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.lifecycle.*
 import com.jms.a20220602_navermap.data.model.GeoInfo
 import com.jms.searchpharmacy.data.model.SingleLiveEvent
+import com.jms.searchpharmacy.data.model.kakaokeyword.KakaoKeywResponse
 import com.jms.searchpharmacy.data.model.reversegeo.Coords
 import com.jms.searchpharmacy.data.model.reversegeo.Region
 import com.jms.searchpharmacy.data.model.server.*
@@ -63,6 +64,58 @@ class MainViewModel(
                 }
             }
         }
+    }
+//    private val _searchResult: SingleLiveEvent<List<String>> = SingleLiveEvent()
+//    val searchResult: LiveData<List<String>> get() = _searchDong
+//
+//    fun searchResult(query: String) = viewModelScope.launch {
+//        val response = mainRepository.searchByKeyword(query)
+//
+//        if(response.isSuccessful) {
+//            response.body()?.let {
+//
+//                if(it.documents != null) {
+//                    for(item in it.documents) {
+//
+//                    }
+//                }
+//
+//            }
+//        }
+//
+//    }
+
+    private val _searchDong: SingleLiveEvent<List<String>> = SingleLiveEvent()
+    val searchDong: LiveData<List<String>> get() = _searchDong
+
+    fun searchDongByQuery(query: String) = viewModelScope.launch {
+        val response = mainRepository.searchByKeyword(query)
+
+        if(response.isSuccessful) {
+            response.body()?.let { body->
+                body.meta?.totalCount?.let { totalCnt->
+                    if(totalCnt > 0 && body.documents != null) {
+                        val dongList = mutableListOf<String>()
+                        for(item in body.documents){
+                            val dong: List<String>? = item.addressName?.split(" ")?.filterIndexed{ index, str->
+                                index == 2
+                            }
+                            dong?.get(0)?.let {
+                                dongList += dong
+                            }
+
+
+                        }
+
+                        _searchDong.postValue(dongList)
+
+                    }
+                }
+            }
+
+
+        }
+
     }
 
     private val _searchPhar = MutableLiveData<GeoInfo>()

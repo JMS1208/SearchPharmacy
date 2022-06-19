@@ -3,11 +3,13 @@ package com.jms.searchpharmacy.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jms.a20220602_navermap.data.model.GeoInfo
+import com.jms.searchpharmacy.data.api.RetrofitInstance.kakaoSearchApi
 import com.jms.searchpharmacy.data.api.RetrofitInstance.naverMapApi
 
 import com.jms.searchpharmacy.data.api.RetrofitInstance.serverApi
 
 import com.jms.searchpharmacy.data.db.SearchPharDatabase
+import com.jms.searchpharmacy.data.model.kakaokeyword.KakaoKeywResponse
 import com.jms.searchpharmacy.data.model.reversegeo.ReverseGeoInfo
 import com.jms.searchpharmacy.data.model.server.*
 
@@ -75,5 +77,9 @@ class MainRepository(private val db: SearchPharDatabase) {
 
     fun fetchPLsTop5(): Call<List<PharmacyLocation>> {
         return serverApi.getTop5()
+    }
+
+    suspend fun searchByKeyword(query: String, category: String="SW8"): Response<KakaoKeywResponse> {
+        return kakaoSearchApi.searchLocal(query, category)
     }
 }

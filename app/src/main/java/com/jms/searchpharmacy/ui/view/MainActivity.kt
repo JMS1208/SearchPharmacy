@@ -71,8 +71,8 @@ class MainActivity : AppCompatActivity() {
             myLocation = it
         }
 
-    }
 
+    }
 
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun requestLocation(){
+    private fun requestLocation() {
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity() {
             override fun onLocationResult(locationResult: LocationResult) {
                 super.onLocationResult(locationResult)
                 myLocation = locationResult.lastLocation
-                Log.d("TAG","현재위치: $myLocation")
+
             }
         }
 
@@ -173,8 +173,8 @@ class MainActivity : AppCompatActivity() {
 
                 if (siName.contains("서울")) { //서울이 이름에 들어가 있으면
                     region.area3?.name?.let { dongName ->
-                        val bundle = Bundle().apply{
-                            putString(DONG_NAME_NAV_ARGS,dongName)
+                        val bundle = Bundle().apply {
+                            putString(DONG_NAME_NAV_ARGS, dongName)
                         }
                         navController.navigate(R.id.fragment_brief, bundle)
                     }

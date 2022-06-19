@@ -92,6 +92,72 @@ class SelectSubwayFragment : Fragment() {
         findNavController().navigate(action)
     }
 
+    private fun createStationList(list: List<String>): List<Station> {
+        val stationList = mutableListOf<Station>()
+
+        for(i in list.indices) {
+            stationList += Station(list[i], null, null)
+        }
+        return stationList
+    }
+
+    private fun createDialog(list: List<Station>){
+        // 다이얼로그로 보내기
+        val dialogBinding = DialogSelectDongBinding.inflate(layoutInflater)
+
+
+
+
+        alertDialog =
+            AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+                .setView(dialogBinding.root)
+                .create()
+
+        dialogBinding.apply {
+            dialogRv.adapter = DialogAdapter(list)
+            dialogRv.layoutManager =
+                LinearLayoutManager(requireContext())
+            dialogRv.addOnItemTouchListener(object :
+                RecyclerView.OnItemTouchListener {
+                override fun onInterceptTouchEvent(
+                    rv: RecyclerView,
+                    e: MotionEvent
+                ): Boolean {
+                    return false
+                }
+
+                override fun onTouchEvent(
+                    rv: RecyclerView,
+                    e: MotionEvent
+                ) {
+                    when (e.action) {
+                        MotionEvent.ACTION_BUTTON_PRESS -> {
+                            alertDialog.dismiss()
+
+                        }
+                        else -> {}
+                    }
+                }
+
+                override fun onRequestDisallowInterceptTouchEvent(
+                    disallowIntercept: Boolean
+                ) {
+
+                }
+
+            })
+            closeDialogBtn.setOnClickListener {
+                //다이얼로그 닫기
+                alertDialog.dismiss()
+            }
+
+        }
+
+        //뒷배경 투명하게
+        alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        alertDialog.show()
+    }
+
     private fun getDongByStation(station_name: String) {
         val call = serverApi.getDongByStation(station_name)
         call.enqueue(object : Callback<List<Station>> {
@@ -103,63 +169,23 @@ class SelectSubwayFragment : Fragment() {
                     response.body()?.let {
 
                         if (it.size > 1) {
-                            // 다이얼로그로 보내기
-                            val dialogBinding = DialogSelectDongBinding.inflate(layoutInflater)
+                            createDialog(it)
+                        } else {
 
-
-
-
-                            alertDialog =
-                                AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
-                                    .setView(dialogBinding.root)
-                                    .create()
-
-                            dialogBinding.apply {
-                                dialogRv.adapter = DialogAdapter(it)
-                                dialogRv.layoutManager =
-                                    LinearLayoutManager(requireContext())
-                                dialogRv.addOnItemTouchListener(object :
-                                    RecyclerView.OnItemTouchListener {
-                                    override fun onInterceptTouchEvent(
-                                        rv: RecyclerView,
-                                        e: MotionEvent
-                                    ): Boolean {
-                                        return false
-                                    }
-
-                                    override fun onTouchEvent(
-                                        rv: RecyclerView,
-                                        e: MotionEvent
-                                    ) {
-                                        when (e.action) {
-                                            MotionEvent.ACTION_BUTTON_PRESS -> {
-                                                alertDialog.dismiss()
-
-                                            }
-                                            else -> {}
-                                        }
-                                    }
-
-                                    override fun onRequestDisallowInterceptTouchEvent(
-                                        disallowIntercept: Boolean
-                                    ) {
-
-                                    }
-
-                                })
-                                closeDialogBtn.setOnClickListener {
-                                    //다이얼로그 닫기
-                                    alertDialog.dismiss()
-                                }
-
+                            //여기서 동없는거 처리
+                            it[0].dong?.let { dongName ->
+                                moveToDetailFragment(dongName)
                             }
 
-                            //뒷배경 투명하게
-                            alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                            alertDialog.show()
-                        } else {
-                            val dongName = it[0].dong
-                            moveToDetailFragment(dongName)
+                            it[0].dong ?: run {
+                                viewModel.searchDongByQuery(station_name)
+                                viewModel.searchDong.observe(viewLifecycleOwner) { dongList->
+                                    dongList?.let {
+                                        createDialog(createStationList(dongList))
+                                    }
+
+                                }
+                            }
                         }
                     }
                 }
