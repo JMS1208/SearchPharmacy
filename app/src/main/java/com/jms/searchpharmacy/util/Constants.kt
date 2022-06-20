@@ -13,7 +13,7 @@ object Constants {
 
     val stationNamePattern = "^[가-힇|0-9]*역".toRegex()
 
-    val dongNamePattern = "^[가-힇|0-9]*동".toRegex()
+    val dongNamePattern = "^[가-힇|0-9]*[동|가]".toRegex()
 
     const val LAST_MY_PLACE = "last_my_place_info"
     const val DONG_NAME_NAV_ARGS = "dongName"

@@ -42,6 +42,8 @@ class BriefFragment : Fragment() {
     private val viewModel: MainViewModel by lazy {
         (activity as MainActivity).mainViewModel
     }
+    private var myDongName: String? = null
+
 
     private inner class BriefAdapter(val PLList: List<PharmacyLocation>) :
         RecyclerView.Adapter<BriefAdapter.BriefViewHolder>() {
@@ -59,7 +61,12 @@ class BriefFragment : Fragment() {
                     docCnt.text = pl.doctorcount.toString()
 
                     val hospPharAnal: String = if (pl.pharmacy_count == 0) {
-                        "병원만 있는 지역입니다"
+                        if(pl.hospital_count != 0) {
+                            "병원만 있는 지역입니다"
+                        } else {
+                            "병원이 없는 지역입니다"
+                        }
+
                     } else {
                         if (pl.hospital_count > pl.pharmacy_count) {
                             "약국이 병원보다 ${
@@ -71,18 +78,28 @@ class BriefFragment : Fragment() {
                         } else if (pl.hospital_count == pl.pharmacy_count) {
                             "약국과 병원의 수가 같은 지역입니다"
                         } else {
-                            "약국이 병원보다 ${
-                                String.format(
-                                    "%.1f",
-                                    pl.pharmacy_count / pl.hospital_count.toFloat()
-                                )
-                            }배 많은 지역입니다"
+                            if(pl.hospital_count != 0){
+                                "약국이 병원보다 ${
+                                    String.format(
+                                        "%.1f",
+                                        pl.pharmacy_count / pl.hospital_count.toFloat()
+                                    )
+                                }배 많은 지역입니다"
+                            } else {
+                                "병원이 없는 지역입니다"
+                            }
+
                         }
 
                     }
 
                     val convPharAnal: String = if (pl.pharmacy_count == 0) {
-                        "상비약 취급 편의점만 있는 지역입니다"
+                        if(pl.convenience_count != 0) {
+                            "상비약 취급 편의점만 있는 지역입니다"
+                        } else {
+                            "상비약 취급 편의점이 없는 지역입니다"
+                        }
+
                     } else {
                         if (pl.convenience_count > pl.pharmacy_count) {
                             "약국이 상비약 취급 편의점보다 ${
@@ -94,12 +111,17 @@ class BriefFragment : Fragment() {
                         } else if (pl.convenience_count == pl.pharmacy_count) {
                             "약국과 상비약 취급 편의점의 수가 같은 지역입니다"
                         } else {
-                            "약국이 상비약 취급 편의점보다 ${
-                                String.format(
-                                    "%.1f",
-                                    pl.pharmacy_count / pl.convenience_count.toFloat()
-                                )
-                            }배 많은 지역입니다"
+                            if(pl.convenience_count != 0){
+                                "약국이 상비약 취급 편의점보다 ${
+                                    String.format(
+                                        "%.1f",
+                                        pl.pharmacy_count / pl.convenience_count.toFloat()
+                                    )
+                                }배 많은 지역입니다"
+                            } else {
+                                "상비약 취급 편의점이 없는 지역입니다"
+                            }
+
                         }
 
                     }
@@ -109,23 +131,36 @@ class BriefFragment : Fragment() {
                     pharConvAnalyText.text = convPharAnal
 
                     pharHospGraph.apply {
-                        val pharHospSum = pl.hospital_count + pl.pharmacy_count.toFloat()
+                        if(pl.hospital_count != 0 && pl.pharmacy_count != 0) {
+                            val pharHospSum = pl.hospital_count + pl.pharmacy_count.toFloat()
 
-                        setValues(
-                            pl.pharmacy_count / pharHospSum * 100,
-                            pl.hospital_count / pharHospSum * 100
-                        )
+                            setValues(
+                                pl.pharmacy_count / pharHospSum * 100,
+                                pl.hospital_count / pharHospSum * 100
+                            )
+                            this.isVisible = true
+                        } else {
+
+                            this.isVisible = false
+
+                        }
 
 
                     }
                     pharConvGraph.apply {
 
-                        val pharConvSum = pl.pharmacy_count + pl.convenience_count.toFloat()
+                        if(pl.pharmacy_count != 0 && pl.convenience_count != 0) {
+                            val pharConvSum = pl.pharmacy_count + pl.convenience_count.toFloat()
 
-                        setValues(
-                            pl.pharmacy_count / pharConvSum * 100,
-                            pl.convenience_count / pharConvSum * 100
-                        )
+                            setValues(
+                                pl.pharmacy_count / pharConvSum * 100,
+                                pl.convenience_count / pharConvSum * 100
+                            )
+                            this.isVisible = true
+                        } else {
+                            this.isVisible = false
+                        }
+
 
                     }
 
@@ -137,10 +172,7 @@ class BriefFragment : Fragment() {
                         BriefFragmentDirections.actionFragmentBriefToFragmentDetail(pl)
                     findNavController().navigate(action)
                 }
-                itemBinding.chartBtn.setOnClickListener {
-
-                    itemBinding.chartLayout.isVisible = !itemBinding.chartLayout.isVisible
-                }
+                
 
             }
 
@@ -180,12 +212,25 @@ class BriefFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.textInputEditText.setText(args.dongName)
 
+        viewModel.checkInSeoulLiveData.observe(viewLifecycleOwner) { dongName ->
+
+            myDongName = dongName
+
+
+        }
 
         binding.floatingActionButton.setOnClickListener {
             val act = activity as MainActivity
             act.myLocation?.let {
-                act.onCheckInSeoul(it)
+                viewModel.checkInSeoul(it)
             }
+            myDongName?.let {
+                viewModel.fetchPLs(it)
+                binding.textInputEditText.setText(it)
+            } ?: run {
+                Toast.makeText(requireContext(), "서울 지역만 서비스 가능합니다", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
         if (args.dongName.isNullOrEmpty()) {
@@ -247,7 +292,7 @@ class BriefFragment : Fragment() {
                                 //TODO{}
                             } else {
                                 //에러 띄우기
-                                binding.textInputLayout.error = "'동'으로 끝나야 합니다 ex) 역삼동"
+                                binding.textInputLayout.error = "'동' 또는 '가'로 끝나야 합니다 ex) 역삼동"
 
                             }
                             Log.d("TAG", "tit: $it")

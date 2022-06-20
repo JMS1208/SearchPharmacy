@@ -165,6 +165,7 @@ class SelectSubwayFragment : Fragment() {
                 call: Call<List<Station>>,
                 response: Response<List<Station>>
             ) {
+                Log.d("TAG","getDongByStation()")
                 if (response.isSuccessful) {
                     response.body()?.let {
 

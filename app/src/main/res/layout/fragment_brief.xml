@@ -55,15 +55,18 @@
         />
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <TextView
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
-        android:clickable="true"
-        android:src="@android:drawable/ic_menu_mylocation"
-        app:backgroundTint="@color/lightGrey"
+        android:text="내위치"
+        android:background="@drawable/circle_background"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
