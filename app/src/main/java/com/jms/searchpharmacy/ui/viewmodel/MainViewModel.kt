@@ -1,18 +1,19 @@
 package com.jms.searchpharmacy.ui.viewmodel
 
 import android.accounts.NetworkErrorException
+import android.location.Location
+import android.os.Bundle
 import android.util.Log
 import android.view.animation.Transformation
 import android.widget.Toast
 import androidx.lifecycle.*
 import com.jms.a20220602_navermap.data.model.GeoInfo
-import com.jms.searchpharmacy.data.model.SingleLiveEvent
-import com.jms.searchpharmacy.data.model.reversegeo.Coords
-import com.jms.searchpharmacy.data.model.reversegeo.Region
+
 import com.jms.searchpharmacy.data.model.server.*
 import retrofit2.Callback
 
 import com.jms.searchpharmacy.repository.MainRepository
+import com.jms.searchpharmacy.util.Constants
 import com.naver.maps.geometry.LatLng
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,32 +24,42 @@ class MainViewModel(
     private val mainRepository: MainRepository
 ) : ViewModel() {
 
-//    private val _regionLiveData: MutableLiveData<Region?> = MutableLiveData()
-//    val regionLiveData: LiveData<Region?> get() = _regionLiveData
-    private val _regionLiveData: SingleLiveEvent<Region?> = SingleLiveEvent()
-    val regionLiveData: LiveData<Region?> get() = _regionLiveData
+    //찾으면 동이름을 넣음
+    private val _checkInSeoulLiveData: MutableLiveData<String?> = MutableLiveData()
+    val checkInSeoulLiveData: LiveData<String?> get() = _checkInSeoulLiveData
 
-    fun convertCoordsToAddr(latLng: LatLng) = viewModelScope.launch(Dispatchers.IO) {
-        val response = mainRepository.convertCoordsToAddr("${latLng.longitude},${latLng.latitude}")
+    fun checkInSeoul(location: Location) = viewModelScope.launch(Dispatchers.IO) {
+        Log.d("TAG","ViewModel.checkInSeoul() ")
+        val response = mainRepository.convertCoordsToAddr("${location.longitude},${location.latitude}")
 
-        if (response.isSuccessful) {
+        if(response.isSuccessful) {
+            response.body()?.let { reverseGeoInfo ->
+                reverseGeoInfo.results?.get(0)?.region?.area1?.name?.let { siName ->
+                    if(siName.contains("서울")) {
+                        val dongName = reverseGeoInfo.results.get(0).region?.area3?.name
+                        _checkInSeoulLiveData.postValue(dongName)
 
-            response.body()?.let { body ->
-                if (body.results?.size!! > 0) {
+                    } else {
+                        _checkInSeoulLiveData.postValue(null)
+                    }
 
-                    val region = body.results[0].region
-                    _regionLiveData.postValue(region)
-                } else {
-                    _regionLiveData.postValue(null)
+                } ?: run {
+                    _checkInSeoulLiveData.postValue(null)
                 }
 
+            } ?: run {
+                _checkInSeoulLiveData.postValue(null)
             }
-
         }
+
 
     }
 
-    private val _moveThisResult: SingleLiveEvent<GeoInfo?> = SingleLiveEvent()
+
+
+
+
+    private val _moveThisResult: MutableLiveData<GeoInfo?> = MutableLiveData()
     val moveThisResult: LiveData<GeoInfo?> get() = _moveThisResult
 
     fun moveThisPlace(addr: String) = viewModelScope.launch(Dispatchers.IO) {
@@ -63,6 +74,39 @@ class MainViewModel(
                 }
             }
         }
+    }
+
+    private val _searchDong: MutableLiveData<List<String>> = MutableLiveData()
+    val searchDong: LiveData<List<String>> get() = _searchDong
+
+    fun searchDongByQuery(query: String) = viewModelScope.launch {
+        val response = mainRepository.searchByKeyword(query)
+        Log.d("TAG","searchDongByQuery 호출됨")
+        if(response.isSuccessful) {
+            response.body()?.let { body->
+                body.meta?.totalCount?.let { totalCnt->
+                    if(totalCnt > 0 && body.documents != null) {
+                        val dongList = mutableListOf<String>()
+                        for(item in body.documents){
+                            val dong: List<String>? = item.addressName?.split(" ")?.filterIndexed{ index, str->
+                                index == 2
+                            }
+                            dong?.get(0)?.let {
+                                dongList += dong
+                            }
+
+
+                        }
+
+                        _searchDong.postValue(dongList)
+
+                    }
+                }
+            }
+
+
+        }
+
     }
 
     private val _searchPhar = MutableLiveData<GeoInfo>()

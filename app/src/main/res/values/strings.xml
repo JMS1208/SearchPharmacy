@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SearchPharmacy</string>
+    <string name="app_name">약국 입지 찾기</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="load_addr">(%s)</string>
@@ -11,6 +11,8 @@
     <string name="doc_per_phar">의사/약국: %s</string>
     <string name="conv_per_phar">편의점/약국: %s</string>
     <string name="send_pharLocation">%1s %2s %3s, %4s, %5s, %6s, %7s, %8s, %9s </string>
-    <string name="send_title">-서치파머(약국입지에 대한 정보)-</string>
+    <string name="send_title">-약국 입지 찾기 App(약국입지에 대한 정보)-</string>
+    <string name="lastUpdateDate">2022.06.20</string>
+    <string name="Version">1.0.1</string>
 
 </resources>

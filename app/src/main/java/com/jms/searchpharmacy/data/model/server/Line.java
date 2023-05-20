@@ -6,6 +6,9 @@ public class Line {
     @SerializedName("name")
     private String name;
 
+    @SerializedName("color")
+    private String color;
+
     public Line(String name) {
         this.name = name;
     }
@@ -17,4 +20,8 @@ public class Line {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getColor() { return color; }
+
+    public void setColor(String color) { this.color = color; }
 }

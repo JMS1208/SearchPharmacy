@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +21,7 @@ import com.jms.searchpharmacy.R
 import com.jms.searchpharmacy.data.model.server.PharmacyLocation
 import com.jms.searchpharmacy.databinding.FragmentBriefBinding
 import com.jms.searchpharmacy.databinding.ItemInBriefBinding
+import com.jms.searchpharmacy.databinding.ItemInBriefChartBinding
 import com.jms.searchpharmacy.databinding.ItemInBriefFieldNameBinding
 import com.jms.searchpharmacy.ui.view.MainActivity
 import com.jms.searchpharmacy.ui.viewmodel.MainViewModel
@@ -40,11 +42,13 @@ class BriefFragment : Fragment() {
     private val viewModel: MainViewModel by lazy {
         (activity as MainActivity).mainViewModel
     }
+    private var myDongName: String? = null
+
 
     private inner class BriefAdapter(val PLList: List<PharmacyLocation>) :
         RecyclerView.Adapter<BriefAdapter.BriefViewHolder>() {
 
-        inner class BriefViewHolder(val itemBinding: ItemInBriefBinding) :
+        inner class BriefViewHolder(val itemBinding: ItemInBriefChartBinding) :
             RecyclerView.ViewHolder(itemBinding.root) {
 
 
@@ -53,8 +57,113 @@ class BriefFragment : Fragment() {
                     roadNameAddr.text = pl.load_address
                     hospitalCnt.text = pl.hospital_count.toString()
                     pharmacyCnt.text = pl.pharmacy_count.toString()
-                    ratio.text = String.format("%.2f", pl.hospital_per_pharmacy)
                     convStoreCnt.text = pl.convenience_count.toString()
+                    docCnt.text = pl.doctorcount.toString()
+
+                    val hospPharAnal: String = if (pl.pharmacy_count == 0) {
+                        if(pl.hospital_count != 0) {
+                            "병원만 있는 지역입니다"
+                        } else {
+                            "병원이 없는 지역입니다"
+                        }
+
+                    } else {
+                        if (pl.hospital_count > pl.pharmacy_count) {
+                            "약국이 병원보다 ${
+                                String.format(
+                                    "%.1f",
+                                    pl.hospital_count / pl.pharmacy_count.toFloat()
+                                )
+                            }배 적은 지역입니다"
+                        } else if (pl.hospital_count == pl.pharmacy_count) {
+                            "약국과 병원의 수가 같은 지역입니다"
+                        } else {
+                            if(pl.hospital_count != 0){
+                                "약국이 병원보다 ${
+                                    String.format(
+                                        "%.1f",
+                                        pl.pharmacy_count / pl.hospital_count.toFloat()
+                                    )
+                                }배 많은 지역입니다"
+                            } else {
+                                "병원이 없는 지역입니다"
+                            }
+
+                        }
+
+                    }
+
+                    val convPharAnal: String = if (pl.pharmacy_count == 0) {
+                        if(pl.convenience_count != 0) {
+                            "상비약 취급 편의점만 있는 지역입니다"
+                        } else {
+                            "상비약 취급 편의점이 없는 지역입니다"
+                        }
+
+                    } else {
+                        if (pl.convenience_count > pl.pharmacy_count) {
+                            "약국이 상비약 취급 편의점보다 ${
+                                String.format(
+                                    "%.1f",
+                                    pl.convenience_count / pl.pharmacy_count.toFloat()
+                                )
+                            }배 적은 지역입니다"
+                        } else if (pl.convenience_count == pl.pharmacy_count) {
+                            "약국과 상비약 취급 편의점의 수가 같은 지역입니다"
+                        } else {
+                            if(pl.convenience_count != 0){
+                                "약국이 상비약 취급 편의점보다 ${
+                                    String.format(
+                                        "%.1f",
+                                        pl.pharmacy_count / pl.convenience_count.toFloat()
+                                    )
+                                }배 많은 지역입니다"
+                            } else {
+                                "상비약 취급 편의점이 없는 지역입니다"
+                            }
+
+                        }
+
+                    }
+
+                    pharHospAnalyText.text = hospPharAnal
+
+                    pharConvAnalyText.text = convPharAnal
+
+                    pharHospGraph.apply {
+                        if(pl.hospital_count != 0 && pl.pharmacy_count != 0) {
+                            val pharHospSum = pl.hospital_count + pl.pharmacy_count.toFloat()
+
+                            setValues(
+                                pl.pharmacy_count / pharHospSum * 100,
+                                pl.hospital_count / pharHospSum * 100
+                            )
+                            this.isVisible = true
+                        } else {
+
+                            this.isVisible = false
+
+                        }
+
+
+                    }
+                    pharConvGraph.apply {
+
+                        if(pl.pharmacy_count != 0 && pl.convenience_count != 0) {
+                            val pharConvSum = pl.pharmacy_count + pl.convenience_count.toFloat()
+
+                            setValues(
+                                pl.pharmacy_count / pharConvSum * 100,
+                                pl.convenience_count / pharConvSum * 100
+                            )
+                            this.isVisible = true
+                        } else {
+                            this.isVisible = false
+                        }
+
+
+                    }
+
                 }
 
                 itemView.setOnClickListener {
@@ -63,6 +172,7 @@ class BriefFragment : Fragment() {
                         BriefFragmentDirections.actionFragmentBriefToFragmentDetail(pl)
                     findNavController().navigate(action)
                 }
+                
 
             }
 
@@ -70,7 +180,7 @@ class BriefFragment : Fragment() {
 
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BriefViewHolder {
-            val binding = ItemInBriefBinding.inflate(layoutInflater, parent, false)
+            val binding = ItemInBriefChartBinding.inflate(layoutInflater, parent, false)
             return BriefViewHolder(binding)
 
         }
@@ -102,15 +212,28 @@ class BriefFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.textInputEditText.setText(args.dongName)
 
+        viewModel.checkInSeoulLiveData.observe(viewLifecycleOwner) { dongName ->
+
+            myDongName = dongName
+
+
+        }
 
         binding.floatingActionButton.setOnClickListener {
             val act = activity as MainActivity
             act.myLocation?.let {
-                act.onCheckInSeoul(it)
+                viewModel.checkInSeoul(it)
             }
+            myDongName?.let {
+                viewModel.fetchPLs(it)
+                binding.textInputEditText.setText(it)
+            } ?: run {
+                Toast.makeText(requireContext(), "서울 지역만 서비스 가능합니다", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
-        if(args.dongName.isNullOrEmpty()) {
+        if (args.dongName.isNullOrEmpty()) {
             binding.briefInfoRecyclerView.adapter = BriefAdapter(emptyList())
             binding.briefInfoRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         }
@@ -169,10 +292,10 @@ class BriefFragment : Fragment() {
                                 //TODO{}
                             } else {
                                 //에러 띄우기
-                                binding.textInputLayout.error = "'동'으로 끝나야 합니다 ex) 역삼동"
+                                binding.textInputLayout.error = "'동' 또는 '가'로 끝나야 합니다 ex) 역삼동"
 
                             }
-                            Log.d("TAG","tit: $it")
+                            Log.d("TAG", "tit: $it")
                         }
                     }
 

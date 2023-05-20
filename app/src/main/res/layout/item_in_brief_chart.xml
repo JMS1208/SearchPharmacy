@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:orientation="vertical"
+    android:background="@drawable/white_radius_stroke_bg_grey"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="5dp"
+
+        >
+        <TextView
+            android:id="@+id/roadNameAddr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:textSize="25sp"
+            tools:text="송이로 27길"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/dimPink"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textSize="20sp"
+            android:text="약국"
+            />
+        <TextView
+            android:id="@+id/pharmacyCnt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textSize="20sp"
+            tools:text="5"
+            android:layout_marginEnd="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textSize="20sp"
+            android:text="병원"
+            />
+        <TextView
+            android:id="@+id/hospitalCnt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:singleLine="true"
+            android:textSize="20sp"
+            tools:text="1"
+            android:layout_marginEnd="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:singleLine="true"
+            android:textSize="20sp"
+            android:text="편의점"
+            />
+        <TextView
+            android:id="@+id/convStoreCnt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+
+            android:textSize="20sp"
+            tools:text="1"
+            android:layout_marginEnd="10dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textSize="20sp"
+            android:text="의사"
+            />
+        <TextView
+            android:id="@+id/doc_cnt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+
+            android:textSize="20sp"
+            tools:text="1"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/chartLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/white_radius_stroke_bg_grey"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="상세분석"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textSize="20sp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="5dp"
+                android:text="(단위: %)"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <com.cliff.comparingperformancebar.ValueProgressBar
+            android:id="@+id/phar_hosp_graph"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:vpb_progressLeftColor="@color/yellow"
+            app:vpb_progressRightColor="@color/darkPink"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:elevation="3dp"
+
+            />
+
+        <com.cliff.comparingperformancebar.ValueProgressBar
+            android:id="@+id/phar_conv_graph"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:vpb_progressLeftColor="@color/yellow"
+            app:vpb_progressRightColor="@color/purple"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:elevation="3dp"
+
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:gravity="end"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@color/yellow"
+                app:civ_border_color="@color/white"
+                app:civ_border_overlay="true"
+                app:civ_border_width="1dp"
+                android:layout_marginStart="5dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:elevation="1dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="약국"
+                android:layout_marginStart="5dp"
+                android:layout_gravity="center"
+                />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@color/pink"
+                app:civ_border_color="@color/white"
+                app:civ_border_overlay="true"
+                app:civ_border_width="1dp"
+                android:layout_marginStart="5dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:elevation="1dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="병원"
+                android:layout_marginStart="5dp"
+                android:layout_gravity="center"
+                />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@color/purple"
+                app:civ_border_color="@color/white"
+                app:civ_border_overlay="true"
+                app:civ_border_width="1dp"
+                android:layout_marginStart="5dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:elevation="1dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="편의점"
+                android:layout_marginStart="5dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="start"
+            android:padding="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="5dp"
+            >
+            <TextView
+                android:id="@+id/phar_hosp_analy_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="약국이 병원보다 5배 적은 지역입니다"
+                android:textSize="15sp"
+                android:layout_margin="3dp"
+                />
+            <TextView
+                android:id="@+id/phar_conv_analy_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="약국이 편의점보다 5배 적은 지역입니다"
+                android:textSize="15sp"
+                android:layout_margin="3dp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

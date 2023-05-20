@@ -32,6 +32,7 @@ import com.jms.searchpharmacy.databinding.ItemBestSearchBinding
 import com.jms.searchpharmacy.databinding.ItemInBriefBinding
 import com.jms.searchpharmacy.ui.view.MainActivity
 import com.jms.searchpharmacy.ui.viewmodel.MainViewModel
+import com.jms.searchpharmacy.util.Constants.DONG_NAME_NAV_ARGS
 import com.jms.searchpharmacy.util.Constants.PERMISSION_REQUEST_CODE
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.util.FusedLocationSource
@@ -46,6 +47,7 @@ class HomeFragment : Fragment() {
     private val viewModel: MainViewModel by lazy {
         (activity as MainActivity).mainViewModel
     }
+    private var myDongName: String? = null
 
 
     private inner class Top5Adapter(val PLList: List<PharmacyLocation>) :
@@ -182,7 +184,18 @@ class HomeFragment : Fragment() {
 
 
                 currentLocation?.let {
-                    (activity as MainActivity).onCheckInSeoul(currentLocation)
+                    viewModel.checkInSeoul(it)
+                    myDongName?.let { dongName->
+                        val bundle = Bundle().apply {
+                            putString(DONG_NAME_NAV_ARGS, dongName)
+                        }
+                        findNavController().navigate(R.id.fragment_brief, bundle)
+                    } ?: run {
+                        Toast.makeText(requireContext(), "서울 지역만 서비스 가능합니다", Toast.LENGTH_SHORT).show()
+                    }
+
+
+
                 }
 
                 if (currentLocation == null) {
@@ -198,7 +211,11 @@ class HomeFragment : Fragment() {
             }
         }
 
+        viewModel.checkInSeoulLiveData.observe(viewLifecycleOwner) { dongName ->
 
+            myDongName = dongName
+
+        }
 
         viewModel.fetchedPLsTop5List.observe(viewLifecycleOwner) {
             binding.top5RecyclerView.adapter = Top5Adapter(it)
