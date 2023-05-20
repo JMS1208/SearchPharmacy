@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/bottom_navigation_menu_color.xml" value="0.103" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/circle_bacground.xml" value="0.135" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/circle_shape.xml" value="0.1735" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/detail_info_bg.xml" value="0.179" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/gradient_bg.xml" value="0.194" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/gradient_bg1.xml" value="0.1745" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/gradient_line1.xml" value="0.156" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.179" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/ic_favorite_24.xml" value="0.115" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/imageview_bg.xml" value="0.179" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/selector_radio_button_text_color.xml" value="0.1" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/selector_stated_bg_color.xml" value="0.1455" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/selector_text_color.xml" value="0.1" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/stated_color_bg.xml" value="0.1455" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/tab_layout_bg.xml" value="0.179" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/tit_box_color.xml" value="0.156" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/white_radius_bg.xml" value="0.194" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/white_radius_stroke_bg.xml" value="0.1" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/drawable/white_radius_stroke_bg_grey.xml" value="0.1665" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/dialog_item_select_dong.xml" value="0.13272543059777103" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/dialog_select_dong.xml" value="0.1" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/fragment_brief.xml" value="0.2595108695652174" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/fragment_detail.xml" value="0.24864130434782608" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/fragment_detail_conv.xml" value="0.2484375" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/fragment_detail_hosp.xml" value="0.2484375" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/fragment_detail_phar.xml" value="0.23385416666666667" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/fragment_favorite.xml" value="0.23461538461538461" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/fragment_home.xml" value="0.2595108695652174" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/fragment_map.xml" value="0.17603850050658562" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/fragment_search.xml" value="0.16894630192502533" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/fragment_select_subway.xml" value="0.2595108695652174" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/fragment_settings.xml" value="0.33" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/item_best_search.xml" value="0.33" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/item_detail_conv.xml" value="0.13323201621073963" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/item_detail_hosp.xml" value="0.13323201621073963" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/item_detail_phar.xml" value="0.1096757852077001" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/item_favorite.xml" value="0.1947463768115942" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/item_favorite_pl.xml" value="0.25" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/item_in_brief.xml" value="0.2346014492753623" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/item_in_brief_chart.xml" value="0.25" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/item_in_brief_field_name.xml" value="0.33" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/item_in_detail_subway.xml" value="0.307518115942029" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/layout/item_in_select_subway.xml" value="0.2595108695652174" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.1" />
+        <entry key="..\:/MyAndroid/SearchPharmacy/app/src/main/res/xml/included_my_page.xml" value="0.24048913043478262" />
+        <entry key="..\:/Users/USER/Desktop/SearchPharmacyJycforest/app/src/main/res/layout/fragment_brief.xml" value="0.13541666666666666" />
+        <entry key="..\:/Users/USER/Desktop/SearchPharmacyJycforest/app/src/main/res/layout/fragment_detail.xml" value="0.1526268115942029" />
+        <entry key="..\:/Users/USER/Desktop/SearchPharmacyJycforest/app/src/main/res/layout/fragment_detail_conv.xml" value="0.1875" />
+        <entry key="..\:/Users/USER/Desktop/SearchPharmacyJycforest/app/src/main/res/layout/fragment_detail_hosp.xml" value="0.14673913043478262" />
+        <entry key="..\:/Users/USER/Desktop/SearchPharmacyJycforest/app/src/main/res/layout/fragment_detail_phar.xml" value="0.1" />
+        <entry key="..\:/Users/USER/Desktop/SearchPharmacyJycforest/app/src/main/res/layout/fragment_home.xml" value="0.2" />
+        <entry key="..\:/Users/USER/Desktop/SearchPharmacyJycforest/app/src/main/res/layout/item_detail_conv.xml" value="0.1875" />
+        <entry key="..\:/Users/USER/Desktop/SearchPharmacyJycforest/app/src/main/res/layout/item_detail_hosp.xml" value="0.14673913043478262" />
+        <entry key="..\:/Users/USER/Desktop/SearchPharmacyJycforest/app/src/main/res/layout/item_detail_phar.xml" value="0.2" />
+        <entry key="..\:/Users/USER/Desktop/SearchPharmacyJycforest/app/src/main/res/layout/item_in_brief.xml" value="0.15534420289855072" />
+        <entry key="..\:/Users/USER/Desktop/SearchPharmacyJycforest/app/src/main/res/layout/item_in_brief_field_name.xml" value="0.12132725430597771" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
